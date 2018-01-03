@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 #!/usr/bin/env python
 """Map an expression.
 
@@ -10,7 +12,11 @@ import datetime
 import ee
 import ee.mapclient
 
-ee.Initialize()
+service_account = 'account4gee@chen-pku-app.iam.gserviceaccount.com'
+credentials = ee.ServiceAccountCredentials(service_account, '/Users/chengaoxing/chen-pku-app-60ac23478bd0.json')
+ee.Initialize(credentials)
+
+# ee.Initialize()
 
 # Filter the L7 collection to a single month.
 collection = (ee.ImageCollection('LE7_L1T_TOA')
@@ -42,7 +48,7 @@ vis = {
         '207401', '056201', '004C00', '023B01', '012E01',
         '011D01', '011301'
     ]}
-
+print collection.map(NDVI).mean()
 ee.mapclient.centerMap(-93.7848, 30.3252, 11)
 ee.mapclient.addToMap(collection.map(NDVI).mean(), vis)
 ee.mapclient.addToMap(collection.map(SAVI).mean(), vis)
